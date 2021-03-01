@@ -3,8 +3,11 @@ import {
   Container,
   Label,
   Input,
-  DisplayResults,
+  Button,
+  SearchDropdown,
+  ButtonDropdown,
 } from './style';
+import SearchResults from '../searchResults';
 
 // livesearch should fetch after second letter,
 // capturing n results and storing in state.
@@ -12,12 +15,16 @@ import {
 
 const SearchBar = () => {
   const [search, setSearch] = useState('');
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState({ branded: [], common: [] });
+  const [showButtonDropdown, setShowButtonDropdown] = useState(false);
+  // can only be one of ['all', 'common', 'branded']
+  const [searchState, setSearchState] = useState('all');
 
   const header = new Headers();
   header.append('x-app-id', process.env.REACT_APP_APPID);
   header.append('x-app-key', process.env.REACT_APP_NUTRITIONIX_KEY);
 
+  // fetch returns object with 2 subarrays
   useEffect(() => {
     const conductSearch = () => {
       fetch(`https://trackapi.nutritionix.com/v2/search/instant?query=${search}`, { headers: header })
@@ -30,27 +37,68 @@ const SearchBar = () => {
           setResults(data);
         });
     };
-    // if results array is empty, fetch
-    if ((results.common.length + results.branded.length) <= 3) conductSearch();
-    // search has changed, filter down results
-    setResults(results.filter((obj) => obj.food_name.toLowerCase.includes(search)));
+    // determine when we should actually search?
+    if (search !== '') { conductSearch(); }
+    if (results !== {}) console.log(results);
   }, [search]);
 
   return (
     <>
       <Container>
-        <Label>
-          <Input
-            type="text"
-            value={search}
-            id="search-input"
-            placeholder="Search..."
-            onChange={(e) => setSearch(e.target.value.toLowerCase)}
-          />
-          <i className="fa fa-search" />
-        </Label>
+        <SearchDropdown>
+          <Label>
+            <Input
+              type="text"
+              value={search}
+              id="search-input"
+              placeholder="Search..."
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            />
+            <i className="fa fa-search" />
+          </Label>
+          { results !== { branded: [], common: [] } ? (
+            <SearchResults
+              branded={results.branded}
+              common={results.common}
+            />
+          ) : null }
+        </SearchDropdown>
+        <ButtonDropdown>
+          <Button
+            onClick={() => setShowButtonDropdown(!showButtonDropdown)}
+          >
+            {searchState}
+          </Button>
+          {showButtonDropdown ? (
+            <>
+              <Button
+                onClick={() => {
+                  setSearchState('all');
+                  setShowButtonDropdown(!showButtonDropdown);
+                }}
+              >
+                all
+              </Button>
+              <Button
+                onClick={() => {
+                  setSearchState('common');
+                  setShowButtonDropdown(!showButtonDropdown);
+                }}
+              >
+                common
+              </Button>
+              <Button
+                onClick={() => {
+                  setSearchState('branded');
+                  setShowButtonDropdown(!showButtonDropdown);
+                }}
+              >
+                branded
+              </Button>
+            </>
+          ) : null}
+        </ButtonDropdown>
       </Container>
-      {results.length > 0 ? <DisplayResults results={results} /> : null}
     </>
   );
 };

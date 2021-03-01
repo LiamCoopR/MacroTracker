@@ -1,7 +1,7 @@
 import SearchBar from './searchBar';
-import SearchResult from './searchResult';
+import Result from './result';
 
 export {
   SearchBar,
-  SearchResult,
+  Result,
 };

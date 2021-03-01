@@ -5,9 +5,7 @@ import SearchBar from './components/searchBar';
 dotenv.config();
 
 function App() {
-  return (
-    <SearchBar />
-  );
+  return <SearchBar />;
 }
 
 export default App;
