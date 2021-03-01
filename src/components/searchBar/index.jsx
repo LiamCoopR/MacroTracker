@@ -19,6 +19,7 @@ const SearchBar = () => {
   const [showButtonDropdown, setShowButtonDropdown] = useState(false);
   // can only be one of ['all', 'common', 'branded']
   const [searchState, setSearchState] = useState('all');
+  const searchStateOptions = ['all', 'common', 'branded'];
 
   const header = new Headers();
   header.append('x-app-id', process.env.REACT_APP_APPID);
@@ -32,14 +33,10 @@ const SearchBar = () => {
           if (!response.ok) throw new Error();
           return response.json();
         })
-        .then((data) => {
-          console.log(data);
-          setResults(data);
-        });
+        .then((data) => setResults(data));
     };
     // determine when we should actually search?
     if (search !== '') { conductSearch(); }
-    if (results !== {}) console.log(results);
   }, [search]);
 
   return (
@@ -56,10 +53,11 @@ const SearchBar = () => {
             />
             <i className="fa fa-search" />
           </Label>
-          { results !== { branded: [], common: [] } ? (
+          { search.length >= 2 ? (
             <SearchResults
               branded={results.branded}
               common={results.common}
+              searchState={searchState}
             />
           ) : null }
         </SearchDropdown>
@@ -71,30 +69,18 @@ const SearchBar = () => {
           </Button>
           {showButtonDropdown ? (
             <>
-              <Button
-                onClick={() => {
-                  setSearchState('all');
-                  setShowButtonDropdown(!showButtonDropdown);
-                }}
-              >
-                all
-              </Button>
-              <Button
-                onClick={() => {
-                  setSearchState('common');
-                  setShowButtonDropdown(!showButtonDropdown);
-                }}
-              >
-                common
-              </Button>
-              <Button
-                onClick={() => {
-                  setSearchState('branded');
-                  setShowButtonDropdown(!showButtonDropdown);
-                }}
-              >
-                branded
-              </Button>
+              {searchStateOptions.map((obj) => (
+                <Button
+                  key={obj}
+                  onClick={() => {
+                    setSearchState(obj);
+                    setShowButtonDropdown(!showButtonDropdown);
+                  }}
+                >
+                  {obj}
+
+                </Button>
+              ))}
             </>
           ) : null}
         </ButtonDropdown>
