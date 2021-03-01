@@ -4,16 +4,16 @@ import {
   SearchBar,
   DailyDisplay,
 } from './components';
-import { StateProvider } from './contexts';
+import Store from './contexts';
 
 dotenv.config();
 
 function App() {
   return (
-    <StateProvider>
+    <Store>
       <SearchBar />
       <DailyDisplay />
-    </StateProvider>
+    </Store>
   );
 }
 

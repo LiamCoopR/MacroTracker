@@ -1,26 +1,26 @@
 import React, { createContext, useReducer } from 'react';
-import PropTypes from 'prop-types';
 
-const DailyIntake = createContext({ dayFood: [] });
-const { Provider } = DailyIntake;
-
-const StateProvider = ({ children }) => {
-  const [{ dayFood }, dispatch] = useReducer((state, action) => {
-    switch (action.type) {
-      case 'add-item':
-        return { dayFood: [...dayFood, action.obj] };
-      case 'remove-item':
-        return { dayFood: [...dayFood] };
-      default:
-        return state;
-    }
-  }, { dayFood: [] });
-
-  return <Provider value={{ dayFood, dispatch }}>{children}</Provider>;
+export const ReducerContext = createContext({ dayFood: [] });
+// https://codeburst.io/global-state-with-react-hooks-and-context-api-87019cc4f2cf
+export const Reducer = (state, action) => {
+  switch (action.type) {
+    case 'add-item':
+      return [...state.dayFood, action.payload];
+    case 'remove-item':
+      return state.dayFood;
+    default:
+      return state.dayFood;
+  }
 };
 
-StateProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+// eslint-disable-next-line react/prop-types
+const Store = ({ children }) => {
+  const [state, dispatch] = useReducer(Reducer, {});
+  return (
+    <ReducerContext.Provider value={[state, dispatch]}>
+      {children}
+    </ReducerContext.Provider>
+  );
 };
 
-export { DailyIntake, StateProvider };
+export default Store;

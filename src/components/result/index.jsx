@@ -11,15 +11,17 @@ import {
   BrandedUnits,
   BrandContainer,
 } from './style';
-import { DailyIntake } from '../../contexts';
+import { ReducerContext } from '../../contexts';
 
 // needs either common or branded object (common, or branded represents an array)
-const Result = ({ result }, onClick) => {
-  const intakeState = useContext(DailyIntake);
-  console.log(intakeState);
-
+const Result = ({ result }) => {
+  // can also get state as [state, dispatch]
+  const [dispatch] = useContext(ReducerContext);
+  // modify w/ dispatch({type: 'add-item', payload: result} state.
   return (
-    <Container onClick={onClick}>
+    <Container
+      onClick={() => dispatch({ type: 'add-item', payload: result })}
+    >
       <Image alt="pic" src={result.photo.thumb} />
 
       {'brand_name' in result ? (

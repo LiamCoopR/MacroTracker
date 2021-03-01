@@ -25,7 +25,7 @@ const SearchResults = ({ branded, common, searchState }) => {
           <>
             <Header>Common</Header>
             {common.slice(0, len > common.length ? common.length : len).map((obj) => (
-              <Result key={obj.tag_name + obj.tag_id} result={obj} />))}
+              <Result key={obj.food_name + obj.tag_id} result={obj} />))}
           </>
         ) : null }
     </Container>
