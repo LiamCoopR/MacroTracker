@@ -6,24 +6,34 @@ import {
 } from './style';
 import Result from '../result';
 
-const SearchResults = ({ branded, common }, searchState) => {
-  console.log(searchState);
+const SearchResults = ({ branded, common, searchState }) => {
+  const len = searchState === 'all' ? 5 : 10;
+  // console.log(common[0]);
   return (
     <Container>
-      <Header>Branded</Header>
-      {branded.map((obj) => (
-        <Result result={obj} />
-      ))}
-      <Header>Common</Header>
-      {common.map((obj) => (
-        <Result result={obj} />
-      ))}
+      {searchState !== 'common'
+        ? (
+          <>
+            <Header>Branded</Header>
+            {branded.slice(0, len > branded.length ? branded.length : len).map((obj) => (
+              <Result key={obj.nix_brand_id + obj.nix_item_id} result={obj} />
+            ))}
+          </>
+        ) : null}
+      {searchState !== 'branded'
+        ? (
+          <>
+            <Header>Common</Header>
+            {common.slice(0, len > common.length ? common.length : len).map((obj) => (
+              <Result key={obj.tag_name + obj.tag_id} result={obj} />))}
+          </>
+        ) : null }
     </Container>
   );
 };
 
 SearchResults.propTypes = {
-  // searchStates: PropTypes.string.isRequired,
+  searchState: PropTypes.string.isRequired,
   branded: arrayOf(PropTypes.shape({
     brand_name: PropTypes.string,
     brand_name_item_name: PropTypes.string,
@@ -40,7 +50,7 @@ SearchResults.propTypes = {
     }),
   })),
   common: arrayOf(PropTypes.shape({
-    common_type: PropTypes.string,
+    common_type: PropTypes.number,
     tag_id: PropTypes.string,
     tag_name: PropTypes.string,
     food_name: PropTypes.string,

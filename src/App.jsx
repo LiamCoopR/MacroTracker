@@ -1,11 +1,20 @@
 import React from 'react';
 import dotenv from 'dotenv';
-import SearchBar from './components/searchBar';
+import {
+  SearchBar,
+  DailyDisplay,
+} from './components';
+import { StateProvider } from './contexts';
 
 dotenv.config();
 
 function App() {
-  return <SearchBar />;
+  return (
+    <StateProvider>
+      <SearchBar />
+      <DailyDisplay />
+    </StateProvider>
+  );
 }
 
 export default App;

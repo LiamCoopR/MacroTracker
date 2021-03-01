@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -11,37 +11,43 @@ import {
   BrandedUnits,
   BrandContainer,
 } from './style';
+import { DailyIntake } from '../../contexts';
 
 // needs either common or branded object (common, or branded represents an array)
-const Result = ({ result }) => (
-  <Container>
-    <Image alt="pic" src={result.photo.thumb} />
+const Result = ({ result }, onClick) => {
+  const intakeState = useContext(DailyIntake);
+  console.log(intakeState);
 
-    {'brand_name' in result ? (
-      <>
+  return (
+    <Container onClick={onClick}>
+      <Image alt="pic" src={result.photo.thumb} />
+
+      {'brand_name' in result ? (
+        <>
+          <BrandContainer>
+            <BrandedName>{result.food_name}</BrandedName>
+            <BrandedUnits>
+              {result.brand_name}
+              {', '}
+              {result.serving_qty}
+              {' '}
+              {result.serving_unit}
+            </BrandedUnits>
+          </BrandContainer>
+          <CaloriesContainer>
+            <Calories>{Math.floor(result.nf_calories)}</Calories>
+            <CaloriesRest>cals</CaloriesRest>
+          </CaloriesContainer>
+        </>
+      ) : (
         <BrandContainer>
-          <BrandedName>{result.food_name}</BrandedName>
-          <BrandedUnits>
-            {result.brand_name}
-            {', '}
-            {result.serving_qty}
-            {' '}
-            {result.serving_unit}
-          </BrandedUnits>
+          <CommonName>{result.food_name}</CommonName>
+          {' '}
         </BrandContainer>
-        <CaloriesContainer>
-          <Calories>{result.nf_calories}</Calories>
-          <CaloriesRest>cal</CaloriesRest>
-        </CaloriesContainer>
-      </>
-    ) : (
-      <BrandContainer>
-        <CommonName>{result.food_name}</CommonName>
-        {' '}
-      </BrandContainer>
-    )}
-  </Container>
-);
+      )}
+    </Container>
+  );
+};
 
 Result.propTypes = {
   result: PropTypes.shape({
