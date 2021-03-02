@@ -1,19 +1,21 @@
-// import React, { useContext } from 'react';
-/*
+import React, { useContext } from 'react';
 import {
   Container,
 } from './style';
+import { ReducerContext } from '../../contexts';
 
-const DisplayObj = (result) => {
-  // should be a list of common & branded objects, may also have a third type of object in there
-  // depends what gets returned on full fetch from actual API not just instant search
-  console.log(result);
+const DisplayObj = (obj) => {
+  console.log(obj);
+  return <h1>test</h1>;
+};
+
+const DailyDisplay = () => {
+  const { dayFood } = useContext(ReducerContext);
   return (
-    <div>aaatest</div>
+    <Container>
+      {dayFood.map((obj) => <DisplayObj obj={obj} />)}
+    </Container>
   );
 };
 
-const DailyDisplay = () => (
-);
 export default DailyDisplay;
-*/

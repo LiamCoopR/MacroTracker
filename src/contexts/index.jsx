@@ -1,21 +1,23 @@
 import React, { createContext, useReducer } from 'react';
 
-export const ReducerContext = createContext({ dayFood: [] });
 // https://codeburst.io/global-state-with-react-hooks-and-context-api-87019cc4f2cf
-export const Reducer = (state, action) => {
+const initialState = { dayFood: [] };
+const ReducerContext = createContext(initialState);
+
+function reducer(state, action) {
   switch (action.type) {
     case 'add-item':
       return [...state.dayFood, action.payload];
-    case 'remove-item':
-      return state.dayFood;
+    /* case 'remove-item':
+      return state.dayFood; */
     default:
       return state.dayFood;
   }
-};
+}
 
 // eslint-disable-next-line react/prop-types
 const Store = ({ children }) => {
-  const [state, dispatch] = useReducer(Reducer, {});
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <ReducerContext.Provider value={[state, dispatch]}>
       {children}
@@ -23,4 +25,4 @@ const Store = ({ children }) => {
   );
 };
 
-export default Store;
+export { Store, ReducerContext };
