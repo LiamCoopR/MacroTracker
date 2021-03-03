@@ -1,19 +1,54 @@
 import React, { useContext } from 'react';
 import {
+  Button,
   Container,
+  MacrosContainer,
+  Macros,
+  FoodContainer,
+  Image,
+  FoodItemContainer,
+  ItemName,
 } from './style';
 import { ReducerContext } from '../../contexts';
 
-const DisplayObj = (obj) => {
-  console.log(obj);
-  return <h1>test</h1>;
-};
-
 const DailyDisplay = () => {
-  const { dayFood } = useContext(ReducerContext);
+  const { state, dispatch } = useContext(ReducerContext);
+  const { dayFood, macros } = state;
+  // need to check if common branded, what to display.
+  // when refetch, currentquicksearch object.
   return (
     <Container>
-      {dayFood.map((obj) => <DisplayObj obj={obj} />)}
+      <MacrosContainer>
+        <Macros>
+          Cals:
+          {' '}
+          {macros.calories}
+        </Macros>
+        <Macros>
+          Protein:
+          {' '}
+          {macros.protein}
+        </Macros>
+        <Macros>
+          Fat:
+          {' '}
+          {macros.fat}
+        </Macros>
+        <Macros>
+          Carbs:
+          {' '}
+          {macros.carbs}
+        </Macros>
+      </MacrosContainer>
+      <FoodContainer>
+        {dayFood.map((obj) => (
+          <FoodItemContainer>
+            <Button onClick={dispatch({ type: 'remove-item', payload: { obj } })} />
+            <Image src={obj.photo.thumb} />
+            <ItemName>{obj.food_name}</ItemName>
+          </FoodItemContainer>
+        ))}
+      </FoodContainer>
     </Container>
   );
 };

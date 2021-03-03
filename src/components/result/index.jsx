@@ -19,11 +19,8 @@ import { ReducerContext } from '../../contexts';
 const Result = ({ result }) => {
   const { dispatch } = useContext(ReducerContext);
   return (
-    <Container
-      onClick={() => dispatch({ type: 'add-item', payload: result })}
-    >
+    <Container onClick={() => dispatch({ type: 'add-item', payload: result })}>
       <Image alt="pic" src={result.photo.thumb} />
-
       {'brand_name' in result ? (
         <>
           <BrandContainer>
@@ -50,6 +47,7 @@ const Result = ({ result }) => {
     </Container>
   );
 };
+
 Result.propTypes = {
   result: PropTypes.shape({
     // Branded Only

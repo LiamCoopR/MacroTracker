@@ -8,9 +8,16 @@ import Result from '../result';
 
 const SearchResults = ({ branded, common, searchState }) => {
   const len = searchState === 'all' ? 5 : 10;
-
   return (
     <Container>
+      {searchState !== 'branded'
+        ? (
+          <>
+            <Header>Common</Header>
+            {common.slice(0, len > common.length ? common.length : len).map((obj) => (
+              <Result key={obj.food_name + obj.tag_id} result={obj} />))}
+          </>
+        ) : null }
       {searchState !== 'common'
         ? (
           <>
@@ -20,14 +27,7 @@ const SearchResults = ({ branded, common, searchState }) => {
             ))}
           </>
         ) : null}
-      {searchState !== 'branded'
-        ? (
-          <>
-            <Header>Common</Header>
-            {common.slice(0, len > common.length ? common.length : len).map((obj) => (
-              <Result key={obj.food_name + obj.tag_id} result={obj} />))}
-          </>
-        ) : null }
+
     </Container>
   );
 };

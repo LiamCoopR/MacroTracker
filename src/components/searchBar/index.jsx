@@ -38,51 +38,49 @@ const SearchBar = () => {
   }, [search]);
 
   return (
-    <>
-      <Container>
-        <SearchDropdown>
-          <Label>
-            <Input
-              type="text"
-              value={search}
-              id="search-input"
-              placeholder="Search..."
-              onChange={(e) => setSearch(e.target.value.toLowerCase())}
-            />
-            <i className="fa fa-search" />
-          </Label>
-          { search.length >= 2 ? (
-            <SearchResults
-              branded={results.branded}
-              common={results.common}
-              searchState={searchState}
-            />
-          ) : null }
-        </SearchDropdown>
-        <ButtonDropdown>
-          <Button
-            onClick={() => setShowButtonDropdown(!showButtonDropdown)}
-          >
-            {searchState}
-          </Button>
-          {showButtonDropdown ? (
-            <>
-              {['all', 'common', 'branded'].map((obj) => (
-                <Button
-                  key={obj}
-                  onClick={() => {
-                    setSearchState(obj);
-                    setShowButtonDropdown(!showButtonDropdown);
-                  }}
-                >
-                  {obj}
-                </Button>
-              ))}
-            </>
-          ) : null}
-        </ButtonDropdown>
-      </Container>
-    </>
+    <Container>
+      <SearchDropdown>
+        <Label>
+          <Input
+            type="text"
+            value={search}
+            id="search-input"
+            placeholder="Search..."
+            onChange={(e) => setSearch(e.target.value.toLowerCase())}
+          />
+          <i className="fa fa-search" />
+        </Label>
+        { search.length >= 2 ? (
+          <SearchResults
+            branded={results.branded}
+            common={results.common}
+            searchState={searchState}
+          />
+        ) : null }
+      </SearchDropdown>
+      <ButtonDropdown>
+        <Button
+          onClick={() => setShowButtonDropdown(!showButtonDropdown)}
+        >
+          {searchState}
+        </Button>
+        {showButtonDropdown ? (
+          <>
+            {['all', 'common', 'branded'].map((obj) => (
+              <Button
+                key={obj}
+                onClick={() => {
+                  setSearchState(obj);
+                  setShowButtonDropdown(!showButtonDropdown);
+                }}
+              >
+                {obj}
+              </Button>
+            ))}
+          </>
+        ) : null}
+      </ButtonDropdown>
+    </Container>
   );
 };
 
