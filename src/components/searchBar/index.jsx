@@ -17,9 +17,7 @@ const SearchBar = () => {
   const [search, setSearch] = useState('');
   const [results, setResults] = useState({ branded: [], common: [] });
   const [showButtonDropdown, setShowButtonDropdown] = useState(false);
-  // can only be one of ['all', 'common', 'branded']
   const [searchState, setSearchState] = useState('all');
-  const searchStateOptions = ['all', 'common', 'branded'];
 
   const header = new Headers();
   header.append('x-app-id', process.env.REACT_APP_APPID);
@@ -69,7 +67,7 @@ const SearchBar = () => {
           </Button>
           {showButtonDropdown ? (
             <>
-              {searchStateOptions.map((obj) => (
+              {['all', 'common', 'branded'].map((obj) => (
                 <Button
                   key={obj}
                   onClick={() => {
@@ -78,7 +76,6 @@ const SearchBar = () => {
                   }}
                 >
                   {obj}
-
                 </Button>
               ))}
             </>

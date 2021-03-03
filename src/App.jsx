@@ -1,17 +1,18 @@
-import React /* , { useState, useReducer } */ from 'react';
+import React, { useReducer } from 'react';
 import dotenv from 'dotenv';
 import {
   SearchBar,
 } from './components';
-import { Store } from './contexts';
+import { ReducerContext, initialState, reducer } from './contexts';
 
 dotenv.config();
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <Store>
+    <ReducerContext.Provider value={{ state, dispatch }}>
       <SearchBar />
-    </Store>
+    </ReducerContext.Provider>
   );
 }
 

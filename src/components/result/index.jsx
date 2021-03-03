@@ -1,4 +1,4 @@
-import React /* , { useContext } */ from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -11,17 +11,17 @@ import {
   BrandedUnits,
   BrandContainer,
 } from './style';
-// import { ReducerContext } from '../../contexts';
+import { ReducerContext } from '../../contexts';
 
 // needs either common or branded object (common, or branded represents an array)
 // what happens if it's neither? haven't looked at what "normal"
 // (read: not instant search) API call returns.
 const Result = ({ result }) => {
-  console.log(result);
-  // how to retrieve dispatch function?
+  const { dispatch } = useContext(ReducerContext);
   return (
-    <Container>
-      {/* onClick={() => dispatch({ type: 'add-item', payload: result })} */}
+    <Container
+      onClick={() => dispatch({ type: 'add-item', payload: result })}
+    >
       <Image alt="pic" src={result.photo.thumb} />
 
       {'brand_name' in result ? (
@@ -73,6 +73,8 @@ Result.propTypes = {
     // locale: PropTypes.string,
     photo: PropTypes.exact({
       thumb: PropTypes.string.isRequired,
+      highres: PropTypes.string,
+      is_user_uploaded: PropTypes.bool,
     }).isRequired,
   }).isRequired,
 };

@@ -8,7 +8,7 @@ import Result from '../result';
 
 const SearchResults = ({ branded, common, searchState }) => {
   const len = searchState === 'all' ? 5 : 10;
-  // console.log(common[0]);
+
   return (
     <Container>
       {searchState !== 'common'
