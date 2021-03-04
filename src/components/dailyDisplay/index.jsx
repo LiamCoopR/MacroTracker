@@ -41,9 +41,9 @@ const DailyDisplay = () => {
         </Macros>
       </MacrosContainer>
       <FoodContainer>
-        {dayFood.map((obj) => (
+        {dayFood.map((obj, idx) => (
           <FoodItemContainer>
-            <Button onClick={dispatch({ type: 'remove-item', payload: { obj } })} />
+            <Button onClick={() => dispatch({ type: 'remove-item', payload: idx })} />
             <Image src={obj.photo.thumb} />
             <ItemName>{obj.food_name}</ItemName>
           </FoodItemContainer>

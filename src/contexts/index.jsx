@@ -11,13 +11,16 @@ const initialState = {
 const ReducerContext = createContext(initialState);
 
 function reducer(state, action) {
-  console.log(state.dayFood);
   switch (action.type) {
     case 'add-item':
-      return { dayFood: [...state.dayFood, action.payload], macros: state.macros };
+      return { ...state, dayFood: [...state.dayFood, action.payload] };
     // figure out how we're indexing / keying the objects
-    /* case 'remove-item':
-      return { dayFood: [...state.dayFood.map(() =>())] }; */
+    // remove corresponding element
+    case 'remove-item':
+      return {
+        ...state,
+        dayFood: [...state.dayFood.filter((obj, idx) => idx !== action.payload)],
+      };
     default:
       return state;
   }
