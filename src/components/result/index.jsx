@@ -13,13 +13,57 @@ import {
 } from './style';
 import { ReducerContext } from '../../contexts';
 
+/*
+function getItem(item) {
+  const header = new Headers();
+  header.append('Content-Type', 'application/json');
+  header.append('x-app-id', process.env.REACT_APP_APPID);
+  header.append('x-app-key', process.env.REACT_APP_NUTRITIONIX_KEY);
+
+  const queryTerm = 'nix_item_id' in item ? item.food_name : item.nix_item_id;
+
+  return fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+    method: 'POST',
+    mode: 'cors',
+    headers: header,
+    body: JSON.stringify({ query: queryTerm }),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error();
+      return response.json();
+    });
+}
+*/
+
 // needs either common or branded object (common, or branded represents an array)
 // what happens if it's neither? haven't looked at what "normal"
 // (read: not instant search) API call returns.
 const Result = ({ result }) => {
   const { dispatch } = useContext(ReducerContext);
+
+  function getItem(item) {
+    const header = new Headers();
+    header.append('Content-Type', 'application/json');
+    header.append('x-app-id', process.env.REACT_APP_APPID);
+    header.append('x-app-key', process.env.REACT_APP_NUTRITIONIX_KEY);
+
+    const queryTerm = 'nix_item_id' in item ? item.food_name : item.nix_item_id;
+
+    return fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+      method: 'POST',
+      mode: 'cors',
+      headers: header,
+      body: JSON.stringify({ query: queryTerm }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error();
+        return response.json();
+      })
+      .then((obj) => dispatch({ type: 'add-item', payload: obj }));
+  }
+
   return (
-    <Container onClick={() => dispatch({ type: 'add-item', payload: result })}>
+    <Container onClick={() => getItem(result)}>
       <Image alt="pic" src={result.photo.thumb} />
       {'brand_name' in result ? (
         <>
@@ -56,7 +100,7 @@ Result.propTypes = {
     // brand_type: PropTypes.string,
     nf_calories: PropTypes.number,
     // nix_brand_id: PropTypes.string,
-    // nix_item_id: PropTypes.string,
+    nix_item_id: PropTypes.string,
     // region: PropTypes.number,
     serving_qty: PropTypes.number,
     serving_unit: PropTypes.string,
@@ -76,25 +120,5 @@ Result.propTypes = {
     }).isRequired,
   }).isRequired,
 };
-
-/*
-Result.defaultProps = {
-  result: {
-    brand_name: null,
-    // brand_name_item_name: null,
-    // brand_type: null,
-    nf_calories: null,
-    // nix_brand_id: null,
-    // nix_item_id: null,
-    // region: null,
-    serving_qty: null,
-    serving_unit: null,
-  // common_type: null,
-  // tag_id: null,
-  // tag_name: null,
-  // locale: null,
-  },
-};
-*/
 
 export default Result;

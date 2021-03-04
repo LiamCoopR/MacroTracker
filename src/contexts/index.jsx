@@ -15,8 +15,6 @@ function reducer(state, action) {
   switch (action.type) {
     case 'add-item':
       return { ...state, dayFood: [...state.dayFood, action.payload] };
-    // figure out how we're indexing / keying the objects
-    // remove corresponding element
     case 'remove-item':
       return {
         ...state,

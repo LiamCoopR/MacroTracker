@@ -30,11 +30,7 @@ export const FoodItemContainer = styled.div`
   border: 2px solid black;
   border-radius: 2%;
   display: grid;
-  grid-template-columns: 
-    minmax(2em, 3em)
-    minmax(5em, 7em)
-    minmax(120px, 445px)
-    minmax(40px, 100px);
+  grid-template-columns: 0.5fr 1fr 5.5fr;
 `;
 export const Image = styled.img`
   justify-self: center;
