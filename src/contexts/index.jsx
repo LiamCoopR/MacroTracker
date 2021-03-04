@@ -11,6 +11,7 @@ const initialState = {
 const ReducerContext = createContext(initialState);
 
 function reducer(state, action) {
+  console.log(action.type, action.payload);
   switch (action.type) {
     case 'add-item':
       return { ...state, dayFood: [...state.dayFood, action.payload] };

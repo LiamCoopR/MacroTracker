@@ -5,6 +5,10 @@ export const Container = styled.div`
   flex-direction: row;
 `;
 
+export const LabelGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 export const Label = styled.label``;
 
 export const Input = styled.input``;
